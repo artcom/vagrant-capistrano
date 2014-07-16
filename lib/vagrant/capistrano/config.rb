@@ -9,12 +9,14 @@ module VagrantPlugins
       attr_accessor :stage
       attr_accessor :application_dir
       attr_accessor :config_files
+      attr_accessor :post_setup_tasks
 
       def initialize
         @capfile = UNSET_VALUE
         @rvm_string = UNSET_VALUE
         @stage = UNSET_VALUE
         @application_dir = UNSET_VALUE
+        @post_setup_tasks = []
         @config_files = {}
       end
 
@@ -23,6 +25,7 @@ module VagrantPlugins
         @rvm_string   = nil if @rvm_string == UNSET_VALUE
         @stage = nil if @stage == UNSET_VALUE
         @application_dir = nil if @application_dir == UNSET_VALUE
+        @post_setup_tasks = nil if @post_setup_tasks == UNSET_VALUE
         @config_files = nil if @config_files == {}
       end
 
