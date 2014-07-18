@@ -6,7 +6,6 @@ module VagrantPlugins
     class Config < Vagrant.plugin(2, :config)
       attr_accessor :capfile
       attr_accessor :cap_ruby_string
-      attr_accessor :app_ruby_string
       attr_accessor :stage
       attr_accessor :application_dir
       attr_accessor :config_files
@@ -17,7 +16,6 @@ module VagrantPlugins
       def initialize
         @capfile = UNSET_VALUE
         @cap_ruby_string = UNSET_VALUE
-        @app_ruby_string = UNSET_VALUE
         @stage = UNSET_VALUE
         @application_dir = UNSET_VALUE
         @post_setup_tasks = []
@@ -29,7 +27,6 @@ module VagrantPlugins
       def finalize!
         @capfile   = nil if @capfile == UNSET_VALUE
         @cap_ruby_string   = nil if @cap_ruby_string == UNSET_VALUE
-        @app_ruby_string   = nil if @app_ruby_string == UNSET_VALUE
         @stage = nil if @stage == UNSET_VALUE
         @application_dir = nil if @application_dir == UNSET_VALUE
         @post_setup_tasks = nil if @post_setup_tasks == UNSET_VALUE
