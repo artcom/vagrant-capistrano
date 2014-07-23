@@ -1,4 +1,4 @@
-Copyright (c) 2014 Martin Skinner
+Copyright (c) 2014 ART+COM
 
 MIT License
 

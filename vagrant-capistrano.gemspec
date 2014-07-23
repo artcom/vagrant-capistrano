@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = VagrantPlugins::Capistrano::VERSION
   spec.authors       = ["Martin Skinner"]
   spec.email         = ["martin@artcom.de"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
-  spec.homepage      = ""
+  spec.summary       = %q{Capistrano Provisioner for Vagrant}
+  spec.description   = %q{Allows you to call capistrano from vargrant}
+  spec.homepage      = "https://github.com/artcom/vagrant-capistrano"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
