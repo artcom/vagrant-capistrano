@@ -12,19 +12,13 @@ module VagrantPlugins
           "HOSTS" => "#{@machine.ssh_info[:host]}:#{@machine.ssh_info[:port]}",
           "HIERA_ROOT" => File.expand_path(@config.hiera_root),
           "HIERA_CONFIG_PATH" => File.join(File.expand_path(@config.hiera_root),'hiera.yaml')
-        }
+        }.merge(@config.environment)
+
         rvm_do = "rvm #{@config.rubystring} do "
         commands = ["cd #{File.dirname(@config.capfile)}"]
-        commands << "#{rvm_do} cap #{@config.stage} rvm:install_ruby" 
-        commands << "#{rvm_do} cap #{@config.stage} deploy:setup"
-        @config.post_setup_tasks.each do |task|
+        @config.tasks.each do |task|
           commands << "#{rvm_do} cap #{@config.stage} #{task}"
         end
-        system(env, commands.join(" && "))
-
-        # now do cap deploy
-        commands = ["cd #{File.dirname(@config.capfile)}"]
-        commands << "#{rvm_do} cap #{@config.stage} deploy" 
         system(env, commands.join(" && "))
       end
     end
