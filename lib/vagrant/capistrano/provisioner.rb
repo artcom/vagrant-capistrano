@@ -14,7 +14,7 @@ module VagrantPlugins
           "HIERA_CONFIG_PATH" => File.join(File.expand_path(@config.hiera_root),'hiera.yaml')
         }.merge(@config.environment)
 
-        rvm_do = "rvm #{@config.rubystring} do "
+        rvm_do = "bundle exec rvm #{@config.rubystring} do "
         commands = ["cd #{File.dirname(@config.capfile)}"]
         @config.tasks.each do |task|
           commands << "#{rvm_do} cap #{@config.stage} #{task}"
