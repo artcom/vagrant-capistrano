@@ -6,7 +6,12 @@ module VagrantPlugins
       def provision
         @machine.env.ui.info "provisioning: #{@config.capfile} with #{@config.rubystring}"
         env = {
+          # prevent vagrant from polluting our environment
+          "BUNDLE_APP_CONFIG" => nil,
+          "BUNDLE_BIN_PATH" => nil,
+          "BUNDLE_CONFIG" => nil,
           "BUNDLE_GEMFILE" => nil,
+          # set up our environment for capistrano
           "DEPLOYMENT_USER" => @machine.ssh_info[:username],
           "SSH_IDENTITY" => @machine.ssh_info[:private_key_path].join(":"),
           "HOSTS" => "#{@machine.ssh_info[:host]}:#{@machine.ssh_info[:port]}",
@@ -14,7 +19,7 @@ module VagrantPlugins
           "HIERA_CONFIG_PATH" => File.join(File.expand_path(@config.hiera_root),'hiera.yaml')
         }.merge(@config.environment)
 
-        rvm_do = "bundle exec rvm #{@config.rubystring} do "
+        rvm_do = "rvm #{@config.rubystring} do "
         commands = ["cd #{File.dirname(@config.capfile)}"]
         @config.tasks.each do |task|
           commands << "#{rvm_do} cap #{@config.stage} #{task}"
