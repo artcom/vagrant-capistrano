@@ -10,43 +10,34 @@ vagrant plugin install vagrant-capistrano
 
 ## Usage
 
-```ruby
-config.vm.provision "capistrano" do |cap|
-  cap.capfile = '../some-project/Capfile'
-  cap.rubystring = 'ruby-2.0.0-p458@project' 
-  cap.stage = 'testing'
-  cap.post_setup_tasks = ['rvm:install'] 
-end
-```
+    config.vm.provision "capistrano" do |cap|
+      cap.capfile = '../some-project/Capfile'
+      cap.rubystring = 'ruby-2.0.0-p458@gemset' 
+      cap.stage = 'testing'
+      cap.tasks = ['rvm:install'] 
+      cap.environment = { 'ENV_VAR' => 'VALUE' } 
+      cap.hiera_root = '../hiera' 
+    end
 
 This provisioner will set the following environment variables before executing capistrano:
 
-```
-DEPLOYMENT_USER = 'vagrant' (or whatever the vagrant ssh user is set to)
-SSH_IDENTITY = private ssh key of the DEPLOYMENT_USER
-HOSTS= IP address and port of the vagrant ssh daemon
-```
+    DEPLOYMENT_USER = 'vagrant' (or whatever the vagrant ssh user is set to)
+    SSH_IDENTITY = private ssh key of the DEPLOYMENT_USER
+    HOSTS= IP address and port of the vagrant ssh daemon
 
 In order for this plugin to successfully execute your capsitrano tasks, should your include the following in your Capfile (or deploy.rb):
 
-```ruby
-# required for vagrant
-set :ssh_options,   { keys: [ENV['SSH_IDENTITY']] } if ENV['SSH_IDENTITY']
-set :user,          ENV['DEPLOYMENT_USER'] || "deployment"
-```
+    # required for vagrant
+    set :ssh_options,   { keys: [ENV['SSH_IDENTITY']] } if ENV['SSH_IDENTITY']
+    set :user,          ENV['DEPLOYMENT_USER'] || "deployment"
 
-This provisioner will cd into the directory containing your Capfile, then perform 
+This provisioner will cd into the directory containing your Capfile, then perform the tasks listed in the cap.tasks array. If
+omitted, it defaults to:
 
-```
-cap (stage) rvm_install_ruby
-cap (stage) deploy:setup
-```
-
-then any capistrano tasks in post_setup_tasks, followed by
-
-```
-cap (stage) deploy
-```
+    cap (stage) misc:update_needed? rvm:install_ruby deploy:setup deploy
+    cap (stage) rvm:install_ruby
+    cap (stage) deploy:setup
+    cap (stage) deploy
 
 ## Contributing
 
