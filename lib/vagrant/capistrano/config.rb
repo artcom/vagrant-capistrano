@@ -10,6 +10,7 @@ module VagrantPlugins
       attr_accessor :tasks
       attr_accessor :environment
       attr_accessor :hiera_root
+      attr_accessor :hiera_role
 
       def initialize
         @capfile = UNSET_VALUE
@@ -18,6 +19,7 @@ module VagrantPlugins
         @tasks = UNSET_VALUE
         @environment = UNSET_VALUE
         @hiera_root = UNSET_VALUE
+        @hiera_role = UNSET_VALUE
       end
 
       def finalize!
@@ -27,6 +29,7 @@ module VagrantPlugins
         @tasks = ['misc:update_needed?', 'rvm:install_ruby','deploy:setup','deploy'] if @tasks == UNSET_VALUE
         @environment = {} if @environment == UNSET_VALUE
         @hiera_root = nil if @hiera_root == UNSET_VALUE
+        @hiera_role = nil if @hiera_role == UNSET_VALUE
       end
 
 

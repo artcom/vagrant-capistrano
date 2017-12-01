@@ -16,6 +16,7 @@ module VagrantPlugins
           "SSH_IDENTITY" => @machine.ssh_info[:private_key_path].join(":"),
           "HOSTS" => "#{@machine.ssh_info[:host]}:#{@machine.ssh_info[:port]}",
           "HIERA_ROOT" => File.expand_path(@config.hiera_root),
+          "HIERA_ROLE" => @config.hiera_role,
           "HIERA_CONFIG_PATH" => File.join(File.expand_path(@config.hiera_root),'hiera.yaml')
         }.merge(@config.environment)
 
